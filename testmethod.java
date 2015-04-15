@@ -19,6 +19,8 @@ public class testmethod
 		//comments added here
 		//added more comments here
 		//add
+		//
+		Object x = new Object();
 	}
 
 }
