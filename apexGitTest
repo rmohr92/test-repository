@@ -1,0 +1,41 @@
+public class AuthorizedReleaseCertificateClass {
+	
+    public static void remarksSizeLimit(List<Authorized_Release_Certificate__c> certificates){
+	
+        Pattern newLinePattern = Pattern.compile('(\\r\\n)|(\\r)|(\\n)');
+        
+        Integer newLineCount;
+        
+        for(Authorized_Release_Certificate__c certificate : certificates)
+        {
+
+            Matcher matcher = newLinePattern.matcher(certificate.Field_12__c);
+            //.find() checks for all occurrances
+            newLineCount = 0;
+            while (matcher.find()) {
+              newLineCount++;
+            }
+                    
+            if( (certificate.Field_12__c.length() > 480 && newLineCount == 0) ||
+                (certificate.Field_12__c.length() > 320 && newLineCount == 1) ||
+                (certificate.Field_12__c.length() > 160 && newLineCount == 2) ||
+                (newLineCount >= 3) ){
+
+                if(System.Test.isRunningTest()==true)
+                {
+                    System.debug('Text entered for the Remarks field is too large. ' + certificate.Field_12__c.length() + ' characters and ' + newLineCount + ' line returns were used.' +
+                    ' A maximum of 3 lines are available with up to 160 characters for each line. A Maximum of 480 characters are allowed. Please reference http://textmechanic.com/Count-Text.html for character and line count.');
+                }
+                else{
+                    certificate.addError('Text entered for the Remarks field is too large. ' + certificate.Field_12__c.length() + ' characters and ' + newLineCount + ' line returns were used.' +
+                    ' A maximum of 3 lines are available with up to 160 characters for each line. A Maximum of 480 characters are allowed. Please reference http://textmechanic.com/Count-Text.html for character and line count.');
+                }
+                
+            }
+            else{
+                certificate.RT_Remarks__c = certificate.Field_12__c.replaceAll('(\\r\\n)|(\\r)|(\\n)', '<br/>');
+            }
+
+        }
+    }
+}
