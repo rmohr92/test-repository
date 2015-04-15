@@ -39,3 +39,4 @@ public class AuthorizedReleaseCertificateClass {
         }
     }
 }
+//this is a test comment to see if git recognizes changes in an Apex class
