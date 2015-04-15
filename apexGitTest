@@ -5,7 +5,7 @@ public class AuthorizedReleaseCertificateClass {
         Pattern newLinePattern = Pattern.compile('(\\r\\n)|(\\r)|(\\n)');
         
         Integer newLineCount;
-        //
+        //add comment
         for(Authorized_Release_Certificate__c certificate : certificates)
         {
 
